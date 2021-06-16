@@ -28,7 +28,7 @@
                 @endif
 
                 {{-- POST DATA --}}
-                <table class="table table-bordered table-hover table-sm  table-striped mt-1 ">
+                <table class="table table-bordered table-hover  mt-1 ">
                     @method('delete')
                     <thead class="table-dark">
                         <tr>
@@ -46,21 +46,21 @@
                             <tr>
                                 <th>{{ $post->id }}</th>
                                 <th>{{ $post->title }}</th>
-                                <td>{{ $post->description }}</td>
+                                <td>{{ Str::limit($post->description , 100 ,$end='....') }}</td>
                                 <td>{{ $post->status }}</td>
                                 <td class="text-center ">
                                     <img src="/storage/post_image/{{$post->post_image}}" width="100px" alt="">
                                     
                                 </td>
-                                <td  >
-                                    <a href="{{route('post.show',$post->id ) }}" class="btn btn-info text-light "  ><i class="fas fa-eye"></i></a>
+                                <td class="d-flex justify-content-around align-items-center  "  >
+                                    <a href="{{route('post.show',$post->id ) }}" class="btn btn-info text-light mt-2 "  ><i class="fas fa-eye"></i></a>
 
-                                    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-warning text-light m-2 "><i
+                                    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-warning text-light mt-2 "><i
                                             class="fas fa-edit"></i></a>
-                                    <form action="{{ route('post.destroy', $post->id) }}" method="post">
+                                    <form class="  " action="{{ route('post.destroy', $post->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger m-2"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-danger mt-2"><i class="fas fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>
