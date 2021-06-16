@@ -3,6 +3,10 @@
 
 @section('content')
 
+
+
+
+
     <div class="container">
         <div class="row">
             <h1 class="display-1">Create Post</h1>
@@ -16,9 +20,9 @@
 
                 @endif
 
-                {{-- CREATE POST FORM  --}}
+                {{-- CREATE POST FORM --}}
 
-                <form method="post" action="{{ route('post.store') }}" class="border rounded p-3 m-3 shadow">
+                <form method="post" action="{{ route('post.store') }}" class="border rounded p-3 m-3 shadow" enctype="multipart/form-data">
                     @csrf
 
                     <div class="row mb-3">
@@ -40,7 +44,7 @@
                         <div class="col-sm-10">
                             <textarea type="text-area" class="form-control" id="inputDescription"
                                 value="{{ old('description') }}" name="description">
-                    </textarea>
+                        </textarea>
                             @error('description')
                                 <div class="alert alert-danger" role="alert">
                                     {{ $message }}
@@ -56,10 +60,9 @@
                         <div class="col-sm-10">
                             <select class="form-select" id="inputStatus" name="status">
                                 <option selected disabled>Choose...</option>
-                                <option value="Publish">Publish</option>
-                                <option value="Draft">Draft</option>
-
-
+                                @foreach (config('setting.post_status') as $status)
+                                    <option value="{{ $status }}">{{ $status }}</option>
+                                @endforeach
                             </select>
                             @error('status')
                                 <div class="alert alert-danger" role="alert">
@@ -70,10 +73,27 @@
                         </div>
                     </div>
 
+                    <div class="row mb-3"> 
+                        <label for="formFile" class="col-sm-2 col-form-label">Select image</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" name="post_image" type="file" id="formFile">
+                          </div>
+                          @error('status')
+                          <div class="alert alert-danger" role="alert">
+                              {{ $message }}
+
+                          </div>
+                      @enderror
+
+                    </div>
+
+
+              
+
                     <button type="submit" class="btn btn-outline-primary">Save Post</button>
                 </form>
 
-                <a type="submit" href="{{route('post.index')}}"  class="btn btn-primary">Back</a>
+                <a type="submit" href="{{ route('post.index') }}" class="btn btn-primary">Back</a>
 
             </div>
         </div>

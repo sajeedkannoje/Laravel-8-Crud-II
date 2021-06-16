@@ -28,7 +28,7 @@
                 @endif
 
                 {{-- POST DATA --}}
-                <table class="table table-bordered table-hover  table-striped mt-1 ">
+                <table class="table table-bordered table-hover table-sm  table-striped mt-1 ">
                     @method('delete')
                     <thead class="table-dark">
                         <tr>
@@ -36,6 +36,7 @@
                             <th scope="col">Title</th>
                             <th scope="col">Description</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Image</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -47,7 +48,12 @@
                                 <th>{{ $post->title }}</th>
                                 <td>{{ $post->description }}</td>
                                 <td>{{ $post->status }}</td>
-                                <td >
+                                <td class="text-center ">
+                                    <img src="/storage/post_image/{{$post->post_image}}" width="100px" alt="">
+                                    
+                                </td>
+                                <td  >
+                                    <a href="{{route('post.show',$post->id ) }}" class="btn btn-info text-light "  ><i class="fas fa-eye"></i></a>
 
                                     <a href="{{ route('post.edit', $post->id) }}" class="btn btn-warning text-light m-2 "><i
                                             class="fas fa-edit"></i></a>

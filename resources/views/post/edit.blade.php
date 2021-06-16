@@ -17,7 +17,7 @@
                 @endif
                 {{-- UPDATE DATA FORM --}}
 
-                <form method="post" action="{{ route('post.update', $post->id) }}" class="border rounded p-3 m-3 shadow">
+                <form method="post" action="{{ route('post.update', $post->id) }}" class="border rounded p-3 m-3 shadow" enctype="multipart/form-data" >
                     @csrf
                     @method('put')
                     <div class="row mb-3">
@@ -57,18 +57,48 @@
 
                         <div class="col-sm-10">
                             <select class="form-select" id="inputStatus" name="status">
-
-                                <option {{ $post->status == 'Publish' ? 'selected' : '' }} value="Publish">Publish</option>
-                                <option {{ $post->status == 'Draft' ? 'selected' : '' }} value="Draft">Draft</option>
+                                @foreach (config('setting.post_status') as $status)
+                   
+                                    <option {{$post->status == 'Publish' ? 'selected' : ''}}  value="{{ $status }}">{{ $status }}</option>
+                                @endforeach
+                                {{-- <option {{ $post->status == 'Publish' ? 'selected' : '' }} value="Publish">Publish</option>
+                                <option {{ $post->status == 'Draft' ? 'selected' : '' }} value="Draft">Draft</option> --}}
                             </select>
                             @error('status')
                                 <div class="alert alert-danger" role="alert">
                                     {{ $message }}
-
                                 </div>
                             @enderror
                         </div>
                     </div>
+                    <div class="row mb-3"> 
+                        <label for="formFile" class="col-sm-2 col-form-label">Old Image </label>
+                        <div class="col-sm-10">
+                            <img src="/storage/post_image/{{$post->post_image}}" width="100px" alt="">
+                          </div>
+
+
+                    </div>
+                    
+
+                    <div class="row mb-3"> 
+                        <label for="formFile" class="col-sm-2 col-form-label">Select New image</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" name="post_image" type="file" id="formFile">
+                          </div>
+                          @error('status')
+                          <div class="alert alert-danger" role="alert">
+                              {{ $message }}
+
+                          </div>
+                      @enderror
+
+                    </div>
+
+
+
+
+
 
                     <button type="submit" class="btn btn-outline-primary">Save Post</button>
                 </form>
