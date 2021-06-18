@@ -3,8 +3,8 @@
 
 return[
     'post_status' => [
-        'draft'=> 'Draft',
-        'publish' => 'Publish'
+        'Draft'=> 'Draft',
+        'Publish' => 'Publish'
     ]
 ]
 ?>

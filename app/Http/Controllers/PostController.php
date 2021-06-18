@@ -13,11 +13,22 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index ()
     {
-
-        $posts = Post::simplepaginate(5);
-
+        if(request('status')){
+            $posts = Post::where('status' ,request('status')) ->simplepaginate(5)->withQueryString();
+            return view("post.index",[
+                "data" => $posts,
+            ]);
+        } 
+        $search = request()->query('search');
+        if($search ){
+            // dd(request()->query('search'));
+            $posts = Post::where('title' , 'LIKE', "%{$search}%" )->simplepaginate(5)->withQueryString();
+        }
+        else{
+          $posts = Post::simplepaginate(5);
+        }
         return view("post.index", [
             "data" => $posts,
         ]);
@@ -48,7 +59,7 @@ class PostController extends Controller
         // dd($request);
 
         $request->validate([
-            'title' => 'required|max:100 ',
+            'title' => 'required|max:100|unique:posts,title',
             'description' => 'required',
             'status' => 'required',
             'post_image' => 'image|max:2048|nullable'
@@ -128,11 +139,10 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-
-        // return $post;
+// dd($post);
 
         $request->validate([
-            'title' => 'required|max:100 ',
+            'title' => "required|max:100|unique:posts,title,$post->id",
             'description' => 'required',
             'status' => 'required',
             'post_image' => 'image|max:2048|nullable'
